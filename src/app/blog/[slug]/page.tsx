@@ -1,4 +1,5 @@
-
+// Import necessary modules and types
+import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { fullBlog } from "@/app/lib/interface";
 import { client, urlFor } from "@/app/sanity/client";
 import Image from "next/image";
@@ -11,6 +12,12 @@ type BlogData = {
   mainImage: any; // Adjust the type according to your mainImage data structure
 };
 
+// Define the type for the static props result
+type StaticPropsResult = {
+  data: BlogData;
+};
+
+// Fetch data based on the slug
 async function getData(slug: string): Promise<BlogData> {
   const query = `*[_type == "blog" && slug.current == '${slug}'][0]{
     'currentSlug': slug.current,
@@ -23,17 +30,35 @@ async function getData(slug: string): Promise<BlogData> {
   return data;
 }
 
-// Define the type for the page props
-type PageProps = {
-  params: {
-    slug: string;
+// Define the `getStaticProps` function
+export async function getStaticProps(context: GetStaticPropsContext<{ slug: string }>): Promise<GetStaticPropsResult<StaticPropsResult>> {
+  const { slug } = context.params!;
+  const data = await getData(slug);
+
+  return {
+    props: {
+      data,
+    },
   };
-};
+}
 
-// Ensure the function is correctly typed and async
-export default async function Blog({ params }: PageProps) {
-  const data = await getData(params.slug);
+// Define the `getStaticPaths` function
+export async function getStaticPaths() {
+  const query = `*[_type == "blog"]{ 'slug': slug.current }`;
+  const blogs = await client.fetch(query);
 
+  const paths = blogs.map((blog: { slug: string }) => ({
+    params: { slug: blog.slug },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+// Define the page component
+export default function Blog({ data }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <div className="mt-8">
       <h1>
