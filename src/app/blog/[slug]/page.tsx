@@ -12,12 +12,17 @@ async function getData(slug:string) {
     mainImage,
 }[0]`;
 
-const data = await client.fetch(query);
+const data:fullBlog = await client.fetch(query);
 return data;
 
 }
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
 
-export default async function Blog ({params} : {params:{slug:string}})  {
+export default async function Blog ({ params }: PageProps)  {
     const data:fullBlog = await getData(params.slug);
   return (
     <div className="mt-8">
