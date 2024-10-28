@@ -23,7 +23,7 @@ return data;
 export default async function Home() {
   const data:simpleBlogCard[] = await getData();
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 mt-5 gap-5 justify-center ">
+    <div className="grid grid-cols-1 md:grid-cols-2 my-5 gap-5 justify-center ">
       {
         data.map((item, index) => (
           <Card key={index}>
@@ -35,7 +35,7 @@ export default async function Home() {
 
             <CardContent className="mt-5">
               <h3 className="text-lg line-clamp-2">{item.title}</h3>
-              <p className="text-sm line-clamp-3 mt-3 text-gray-600">{item.description}</p>
+              <p className="text-sm line-clamp-2 mt-3 text-gray-600">{item.description}</p>
               <Button asChild className="w-full mt-7">
                 <Link href={`/blog/${item.currentSlug}`}>Read More</Link>
                 </Button>

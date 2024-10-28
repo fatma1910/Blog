@@ -1,3 +1,5 @@
+import { PortableTextBlock } from "next-sanity";
+
 export interface simpleBlogCard {
     title: string;
     description: string;
@@ -12,5 +14,5 @@ export interface fullBlog {
     title: string;
     description: string;
     mainImage: any;
-    content: string;
+    content:PortableTextBlock[];
 }
