@@ -6,6 +6,8 @@ import Image from "next/image";
 
 export default async function Blog({ params }: { params: { slug: string } }) {
   const data:fullBlog  = await getPost(params.slug);
+
+
   return (
     <div className="mt-8">
       <h1>
@@ -18,6 +20,7 @@ export default async function Blog({ params }: { params: { slug: string } }) {
         <PortableText value={data.content}/>
 
       </div>
+
     </div>
   );
 }

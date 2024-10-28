@@ -26,3 +26,16 @@ export const getPost = async (slug: string) => {
   const data = await client.fetch(query);
   return data;
 }
+
+export const getData = async() => {
+  const query = `*[_type == "blog"] | order(_createdAt desc) {
+    title,
+    description,
+    "currentSlug": slug.current,
+    mainImage,
+  }`;
+  const data = await client.fetch(query);
+  return data;
+}
+
+
