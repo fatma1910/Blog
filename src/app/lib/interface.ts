@@ -16,3 +16,9 @@ export interface fullBlog {
     mainImage: any;
     content:PortableTextBlock[];
 }
+
+export interface ShowMoreProps {
+    pageNumber:number;
+    isNext: boolean;
+    setLimit: (e:number)=> void ;
+}
